@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import django_heroku
 import os
 from pathlib import Path
 
@@ -161,6 +162,10 @@ AWS_STORAGE_BUCKET_NAME = 'kirti-agarbatti-bucket'
 
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
+
+
+# Django Heroku
+django_heroku.settings(locals())
 
 
 # www.kirtiagarbatti.com
