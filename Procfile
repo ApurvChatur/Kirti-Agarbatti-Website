@@ -1,0 +1,1 @@
+web: gunicorn KIRTI_AGARBATTI.wsgi
