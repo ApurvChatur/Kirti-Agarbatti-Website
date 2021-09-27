@@ -10,7 +10,7 @@ def home_view(request):
     featured_products = get_list_or_404(Product, tag='Featured')
     recent_products = get_list_or_404(Product, tag='Recent')
 
-    template_name = 'ProjectModel/a-home-page.html'
+    template_name = 'ProjectModel/home-page.html'
     context = {
         'title': 'Home',
         'home': home,
