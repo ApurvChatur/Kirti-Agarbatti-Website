@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+    <head>
+        <!--========== META TAGS ==========-->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!--========== BOX ICONS ==========-->
+        <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+
+        <!--========== CSS ==========-->
+        <link rel="stylesheet" href="{% static 'ProjectReal/css/style.css' %}">
+
+        <!--========== TITLE ==========-->
+        {% if title %}
+            <title>Kirti Agarbatti - {{ title }}</title>
+        {% else %}
+            <title>Kirti Agarbatti</title>
+        {% endif %}
+
+    </head>
+    <body>
+
+        <!--========== SCROLL TOP ==========-->
+        <a href="#" class="scrolltop" id="scroll-top">
+            <i class='bx bx-chevron-up scrolltop__icon'></i>
+        </a>
+
+        <!--========== HEADER ==========-->
+        {% include 'ProjectReal/extras/header.html' %}
+
+        <!--========== MAIN ==========-->
+        {% block content %}
+        {% endblock content %}
+
+        <!--========== FOOTER ==========-->
+        {% include 'ProjectReal/extras/footer.html' %}
+
+        <!--========== SCROLL REVEAL ==========-->
+        <script src="https://unpkg.com/scrollreveal"></script>
+
+        <!--========== MAIN JS ==========-->
+        <script src="{% static 'ProjectReal/js/script.js' %}"></script>
+    </body>
+</html>

@@ -3,16 +3,6 @@ from django.db import models
 from django.utils.text import slugify
 from ckeditor import fields
 
-TAG_CHOICES = [
-    ('Featured', 'Featured'),
-    ('Recent', 'Recent'),
-]
-CATEGORY_CHOICES = [
-    ('Agarbatti', 'Agarbatti'),
-    ('Dhoopbatti', 'Dhoopbatti'),
-    ('Perfume', 'Perfume'),
-]
-
 
 class Home(models.Model):
     title = models.CharField(max_length=255, unique=True, default='Kirti Agarbatti')
@@ -58,6 +48,37 @@ class Home(models.Model):
                        })
 
 
+class Category(models.Model):
+    title = models.CharField(max_length=20, unique=True, default='Agarbatti')
+    subtitle = models.CharField(max_length=50, default='Check our agarbattis')
+    slug = models.SlugField(unique=True, blank=True)
+
+    # Some Common Methods
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.slug
+
+    def get_class_name(self):
+        return self.__class__.__name__
+
+    # Project Model
+    def get_category_url(self):
+        return reverse('ProjectModel:category-page',
+                       kwargs={
+                           'slug': self.slug
+                       })
+
+    # Project Real
+    def get_real_category_url(self):
+        return reverse('ProjectReal:category-page',
+                       kwargs={
+                           'slug': self.slug
+                       })
+
+
 class Product(models.Model):
     title = models.CharField(max_length=100)
     subtitle = models.CharField(max_length=255)
@@ -65,8 +86,11 @@ class Product(models.Model):
     discount_price = models.DecimalField(decimal_places=2, max_digits=5, blank=True, null=True)
     description = fields.RichTextField()
     #
-    tag = models.CharField(max_length=50, choices=TAG_CHOICES)
-    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True)
+    tag = models.CharField(choices=(
+                                ('featured', 'featured'),
+                                ('recent', 'recent'),
+                            ), max_length=20, default='featured')
     #
     related_home = models.ForeignKey(Home, on_delete=models.CASCADE, default=f'kirti-agarbatti')
     slug = models.SlugField(unique=True, blank=True)
@@ -90,7 +114,7 @@ class Product(models.Model):
             final_price = self.actual_price
             return final_price
 
-    # ProjectDesign
+    # Project Design
     def get_object_list_url(self):
         return reverse('ProjectDesign:product-list-page')
 
@@ -115,7 +139,7 @@ class Product(models.Model):
                            'slug': self.slug
                        })
 
-    # Product Model
+    # Project Model
     def get_home_url(self):
         return reverse('ProjectModel:home-page')
 
@@ -124,6 +148,13 @@ class Product(models.Model):
 
     def get_product_url(self):
         return reverse('ProjectModel:product-page',
+                       kwargs={
+                           'slug': self.slug
+                       })
+
+    # Project Real
+    def get_real_product_url(self):
+        return reverse('ProjectReal:product-page',
                        kwargs={
                            'slug': self.slug
                        })
